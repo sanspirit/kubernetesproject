@@ -1,6 +1,6 @@
 From centos:latest
 MAINTAINER sanspirit@gmail.com
-RUM yum install -y httpd \
+RUN yum install -y httpd \
   zip  \
   unzip
 ADD https://www.free.css.com/assests/files/free-css-templates/download/page247/kindle.zip /var/www/html/
