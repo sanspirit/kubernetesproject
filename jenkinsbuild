@@ -1,0 +1,29 @@
+node {
+    stage ("Pull Source Code From Github"){
+        git branch: 'main', url: 'https://github.com/sanspirit/kubernetesproject.git'
+    }
+    
+    stage("Build Docker FIle"){
+        sh 'docker image build -t $JOB_NAME:v1.BUILD_ID .'
+        sh 'docker image tag $JOB_NAME:v1.BUILD_ID 08012020/$JOB_NAME:v1.$BUILD_ID'
+        sh 'docker image tag $JOB_NAME:v1.BUILD_ID 08012020/$JOB_NAME:latest'
+    }
+    stage("Push Image To Docker Hub"){
+        withCredentials([string(credentialsId: 'dockerhubpassword', variable: 'dockerhubpassword')]) {
+    // some block
+    sh 'docker login -u 08012020 -p ${dockerhubpassword}'
+    sh 'docker image push 08012020/$JOB_NAME:v1.$BUILD_ID'
+    sh 'docker image push 08012020/$JOB_NAME:latest'
+    sh 'docker image rmi $JOB_NAME:v1.BUILD_ID 08012020/$JOB_NAME:v1.$BUILD_ID 08012020/$JOB_NAME:latest'
+}
+        
+    }
+    
+    stage("Deployment Of Docker Container"){
+        def dockerrun = 'docker run -p 8000:80 -d --name dockerproject 08012020/scripted-pipeline-demo:latest'
+        sshagent(['dockerhostpassword']) {
+    // some block
+    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.21.171 ${dockerrun}"
+}
+    }
+}
