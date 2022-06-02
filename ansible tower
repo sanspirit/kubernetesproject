@@ -1,0 +1,24 @@
+ tasks file for cloudknowledges
+# name: Going To Install Apache Package
+# yum:
+# name: "{{ apache_package }}"
+#
+# name: Going to Start Apache Daemon
+# Service:
+# name: "{{ apache_daemon }}"
+# state: started
+#
+# name: Goin to Copy Source Code
+# copy:
+# src: index.html
+# dest: "{{ apache_documentroot }}"
+#
+# name: Going to Apache In Firewall Role
+# comman: firewall-cmd --add-service=http
+#
+# name: Going To Add Apache Configuration Setting
+# template:
+# src: apache.j2
+# dest: "{{ apache_conf }}"
+# notify:
+#
