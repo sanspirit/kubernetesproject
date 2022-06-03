@@ -1,0 +1,7 @@
+---
+# vars file for cloudknowledges
+
+apache_package: httpd
+apache_daemon: httpd
+apache_documentroot: /var/www/html
+apache_conf: /etc/httpd/conf.d/
