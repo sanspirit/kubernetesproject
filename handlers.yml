@@ -1,0 +1,6 @@
+# handlers file for cloudknowledges
+- name: restart_apache
+  service:
+    name: "{{ apache_daemon }}"
+    state: restarted
+~
